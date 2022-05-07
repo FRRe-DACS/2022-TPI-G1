@@ -1,9 +1,9 @@
-package dacs.tpi.g1.entities;
+package dacs.tpi.login;
 
 import javax.persistence.*;
 
 @Entity
-public class Authority {
+public class EntityAuthority {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

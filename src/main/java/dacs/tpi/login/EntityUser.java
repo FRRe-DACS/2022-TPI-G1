@@ -1,10 +1,10 @@
-package dacs.tpi.g1.entities;
+package dacs.tpi.login;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class User {
+public class EntityUser {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class User {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "authorities_users", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
-	private Set<Authority> authority;
+	private Set<EntityAuthority> entityAuthority;
 
 	public Long getId() {
 		return id;
@@ -55,12 +55,12 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public Set<Authority> getAuthority() {
-		return authority;
+	public Set<EntityAuthority> getAuthority() {
+		return entityAuthority;
 	}
 
-	public void setAuthority(Set<Authority> authority) {
-		this.authority = authority;
+	public void setAuthority(Set<EntityAuthority> entityAuthority) {
+		this.entityAuthority = entityAuthority;
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		EntityUser other = (EntityUser) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

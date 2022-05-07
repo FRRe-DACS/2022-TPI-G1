@@ -1,4 +1,4 @@
-package dacs.tpi.g1;
+package dacs.tpi.login;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
