@@ -10,9 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import dacs.tpi.login.security.filter.CustomAuthenticationFilter;
+import dacs.tpi.login.security.filter.CustomAuthorizationFilter;
 
 import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.DELETE;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,13 +22,14 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity //Habilita la seguridad en springboot
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    
+    private final UserDetailsService userDetailsService; //Esto labura con el service de user
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
     //TODO USER SERVICE AND FILTERS
     //Manager de autenticacion. Todos los intentos de autenticacion pasan por él
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bcryptPasswordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bcryptPasswordEncoder);
     }
 
     //Necesario para evitar que la seguridad se aplique a los resources

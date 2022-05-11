@@ -1,4 +1,4 @@
-package dacs.tpi.login.dto;
+package dacs.tpi.login.dto.forms.user;
 
 import java.util.ArrayList;
 
