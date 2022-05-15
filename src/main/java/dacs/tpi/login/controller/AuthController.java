@@ -32,7 +32,7 @@ public class AuthController {
     private final UserMapper userMapper;
     
     @PostMapping("/register")
-    public ResponseEntity<ResponsePost> createUser(@RequestBody @Valid PostUserDTO user){
+    public ResponseEntity<ResponsePost> createUser(@Valid @RequestBody PostUserDTO user){
         User newUser = authService.createUser(user);
         
         return ResponseEntity.status(HttpStatus.CREATED).body(userMapper.mapperResponsePost(newUser));
