@@ -1,7 +1,7 @@
 package dacs.tpi.login.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,5 +31,5 @@ public class User{
 	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<Role>();
 }

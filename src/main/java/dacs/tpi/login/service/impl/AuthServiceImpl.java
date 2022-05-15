@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,12 +21,14 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +36,10 @@ import dacs.tpi.login.domain.Role;
 import dacs.tpi.login.domain.User;
 import dacs.tpi.login.dto.forms.user.PostUserDTO;
 import dacs.tpi.login.dto.forms.user.UserDTO;
+import dacs.tpi.login.dto.response.ResponsePost;
 import dacs.tpi.login.dto.response.tokens.Tokens;
+import dacs.tpi.login.mapper.UserMapper;
+import dacs.tpi.login.repository.RoleRepository;
 import dacs.tpi.login.repository.UserRepository;
 import dacs.tpi.login.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -44,13 +50,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService,UserDetailsService{
 
+    
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Override
-    public UserDTO createUser(PostUserDTO user) {
-        // TODO Auto-generated method stub
-        return null;
+    public User createUser(PostUserDTO user) {
+
+        return userRepository.save(userMapper.mapperNewUser(user));
+    }
+
+    @Override
+    public User createAdmin(PostUserDTO user) {
+        
+        return userRepository.save(userMapper.mapperNewAdmin(user));
     }
 
     @Override
@@ -60,9 +73,9 @@ public class AuthServiceImpl implements AuthService,UserDetailsService{
     }
 
     @Override
-    public UserDTO getUser() {
+    public List<User> getUser() {
         // TODO Auto-generated method stub
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
@@ -119,5 +132,18 @@ public class AuthServiceImpl implements AuthService,UserDetailsService{
                 user.get().getPassword(),
                 authorities);
     }
+
+    @Override
+    public User getInfoUser() throws NotFoundException {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof User){
+            String username = ((User)principal).getEmail();
+        }else{
+            String username = principal.toString();
+        }
+        return userRepository.findByEmail(principal.toString()).get();
+    }
+
+
     
 }

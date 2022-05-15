@@ -54,7 +54,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Authentication authResult) throws IOException, ServletException {
         
                 User user = (User) authResult.getPrincipal();   
-                Algorithm algorithm = Algorithm.HMAC256("disneyworldAPI".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256("DACSTPI".getBytes());
                 //Generamos token de acceso
                 String accessToken = JWT.create()
                     .withSubject(user.getUsername())

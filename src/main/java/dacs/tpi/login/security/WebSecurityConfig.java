@@ -2,6 +2,7 @@ package dacs.tpi.login.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +16,7 @@ import dacs.tpi.login.security.filter.CustomAuthenticationFilter;
 import dacs.tpi.login.security.filter.CustomAuthorizationFilter;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 import lombok.RequiredArgsConstructor;
 
@@ -47,9 +49,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                     .authorizeRequests()
-                        .antMatchers("/auth/register").permitAll()
-                        .antMatchers("/auth/login").permitAll()
-                        .antMatchers("/auth/token/refresh").permitAll()
+                        .antMatchers(POST,"/auth/register").permitAll()
+                        .antMatchers(GET,"/auth/me").permitAll()
+                        .antMatchers(GET,"/auth/token/refresh").permitAll()
                         .antMatchers(GET,"/auth/users").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated() //No hace falta ROL. Con Token valido puede hacer lo quiera
                         .and()

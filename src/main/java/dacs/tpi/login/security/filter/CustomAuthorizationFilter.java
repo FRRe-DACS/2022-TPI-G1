@@ -42,7 +42,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 try {
                     //Extraemos el token
                     String token = authorizationHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC256("disneyworldAPI".getBytes());
+                    Algorithm algorithm = Algorithm.HMAC256("DACSTPI".getBytes());
                     JWTVerifier jwtVerifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = jwtVerifier.verify(token);
                     //Hasta aca obtenemos el token. Y verificamos el token.
